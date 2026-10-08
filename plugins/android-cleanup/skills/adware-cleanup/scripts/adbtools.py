@@ -64,6 +64,9 @@ class Phone:
         err = (r.stderr or "").strip()
         if "unauthorized" in err:
             sys.exit("Phone is unauthorized: unlock it and tap Allow on the 'Allow USB debugging?' prompt.")
+        if "no permissions" in err or "insufficient permissions" in err:
+            sys.exit("Linux USB permission problem: install your distro's adb udev rules "
+                     "(Debian/Ubuntu: adb; Arch: android-udev), unplug and replug the phone, and try again.")
         if "more than one" in err:
             sys.exit("More than one phone connected: pass --serial (see `adb devices`).")
         sys.exit(f"Phone not ready ({state or err or 'not found'}). Check USB debugging is on and the cable carries data.")

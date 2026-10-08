@@ -1,7 +1,7 @@
 """Build the printable one-page phone cleanup report (HTML and PDF) with the shop's own branding.
 
 Usage: python make_report.py data.json Phone-Cleanup-Report.pdf
-  Shop details come from ~/.claude/android-cleanup/shop.json (see shop-example.json).
+  Shop details come from ~/.android-cleanup/shop.json (see shop-example.json).
   Writes the .html next to the .pdf, prints it with Chrome or Edge, and checks it is one page.
 
 Pure black on white for B&W printing. A fit script shrinks the base font until everything fits the
@@ -25,7 +25,7 @@ for stream in (sys.stdout, sys.stderr):
     except AttributeError:
         pass
 
-SHOP_FILE = Path.home() / ".claude" / "android-cleanup" / "shop.json"
+SHOP_FILE = Path.home() / ".android-cleanup" / "shop.json"
 HERE = Path(__file__).resolve().parent
 
 

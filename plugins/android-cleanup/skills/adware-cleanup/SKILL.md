@@ -14,12 +14,12 @@ On modern Android the "adware" is usually **not an app**. Check these three sour
 The phone is the customer's. Investigate read-only first. **Get the tech's OK before uninstalling apps.** Ask which apps the customer actually uses. Ads that stay inside a game they play are normal, so leave those apps installed.
 
 ## Setup (works on Windows, macOS and Linux)
-- **Python:** on Windows run scripts with `py -3 -I` (or `python -I`); on macOS/Linux use `python3 -I`. Written as `PY` below. The scripts need only the standard library.
+- **Python:** on Windows run scripts with `py -3 -I` (or `python -I`); on macOS and Linux use `python3 -I`. Written as `PY` below. The scripts need only the standard library.
 - **adb:** the scripts find it on PATH or in the usual platform-tools folders. `PY scripts/adbtools.py` prints the path they found. If `adb` isn't on PATH, use that full path for your own adb commands (in PowerShell: `& "C:\path\adb.exe" -s X ...`). If nothing is found, ask the tech where platform-tools is and set `ADB` to the full path.
 - **Phone:** run `adb devices`. `unauthorized` means the tech must tap **Allow** on the phone's USB debugging prompt. Empty means USB debugging is off, or the cable is charge-only.
 - Pass the serial to every command: `--serial <serial>` for scripts and `adb -s <serial>` for adb. Never use `ANDROID_SERIAL=X cmd`, because that fails in PowerShell.
 - Scripts are in this skill's `scripts/` and `report/` folders. Use their full paths. Put dumps and screenshots in a scratch folder, not in the skill folder.
-- **First run:** if `~/.claude/android-cleanup/shop.json` doesn't exist, ask the tech for the shop details (see Report, step 1) at the start, while triage runs, so the job doesn't stall at the end.
+- **First run:** if `~/.android-cleanup/shop.json` doesn't exist, ask the tech for the shop details (see Report, step 1) at the start, while triage runs, so the job doesn't stall at the end.
 
 ## Workflow
 1. **Triage (read-only):** `PY scripts/triage.py --serial X <scratch>/triage`. It reports device info, apps newest-first, overlay apps, device admins, accessibility services, notification listeners, browser site-notification channels with the date each was granted, and recent ad and browser events.
@@ -30,15 +30,15 @@ The phone is the customer's. Investigate read-only first. **Get the tech's OK be
 
 ## Driving the screen
 - Wake the screen first with `adb -s X shell input keyevent KEYCODE_WAKEUP`. If the screenshot shows the lock screen, ask the tech to unlock the phone.
-- Screenshot: `PY scripts/ui.py --serial X shot <scratch>/s.png`, then Read it. Don't redirect `adb exec-out screencap` with `>`, because PowerShell corrupts the PNG. The image is shown scaled, so multiply coordinates by the factor noted with the image.
+- Screenshot: `PY scripts/ui.py --serial X shot <scratch>/s.png`, then view the image. Don't redirect `adb exec-out screencap` with `>`, because PowerShell corrupts the PNG. The image is shown scaled, so multiply coordinates by the factor noted with the image.
 - Tap targets: `PY scripts/ui.py --serial X find "pattern"` prints `(x,y)` in real pixels. Tap with `adb -s X shell input tap x y`. Type with `adb -s X shell input text word`, sending spaces as `%s`.
 - Finish on the home screen: `adb -s X shell input keyevent HOME`.
 
 ## Report (printable, black and white)
-1. **Shop details:** the first time, ask the tech for the shop name, a short tagline, the address line, the phone/website line and the logo file. Save them to `~/.claude/android-cleanup/shop.json` (in the home folder, not the skill folder, so updates keep it) in the format of `report/shop-example.json`. Copy the logo next to it. `make_report.py` says so if it's missing.
+1. **Shop details:** the first time, ask the tech for the shop name, a short tagline, the address line, the phone/website line and the logo file. Save them to `~/.android-cleanup/shop.json` (in the home folder, not the skill folder, so updates keep it) in the format of `report/shop-example.json`. Copy the logo next to it. `make_report.py` says so if it's missing.
 2. Copy `report/example-data.json` to the scratch folder and fill it in with **only what you verified**. Never invent app names: if you couldn't confirm a label, use the package in backticks. Leave Customer as `""` so it prints as a write-in line, unless you know the name. Cell text supports `**bold**` and `` `mono` ``.
-3. `PY report/make_report.py data.json Phone-Cleanup-Report-YYYY-MM-DD.pdf`, with the PDF in the folder Claude was started in (the job folder). It prints with Chrome or Edge and fails unless the PDF is exactly one page.
-4. Read the PDF to check it before handing it over. Keep it pure black on white: no colors or gray fills.
+3. `PY report/make_report.py data.json Phone-Cleanup-Report-YYYY-MM-DD.pdf`, with the PDF in the folder the session was started in (the job folder). It prints with Chrome or Edge and fails unless the PDF is exactly one page.
+4. Check the PDF before handing it over: view it if you can, otherwise open it for the tech to look at. Keep it pure black on white: no colors or gray fills.
 5. Offer to open it for printing: `start "" "<pdf>"` on Windows (`Start-Process "<pdf>"` in PowerShell), `open "<pdf>"` on macOS.
 
 ## Common mistakes
@@ -49,4 +49,6 @@ The phone is the customer's. Investigate read-only first. **Get the tech's OK be
 | Treating every `web:` channel as active | Confirm in Chrome's Allowed list. Most may already be blocked. |
 | Uninstalling without asking | Confirm the list with the tech first. |
 | Uninstall fails with `DELETE_FAILED_DEVICE_POLICY_MANAGER` | The app is a device admin. Turn it off in Settings → Security and privacy → Other security settings → Device admin apps, then uninstall again. |
+| `adb devices` shows `no permissions` (Linux) | Install the distro's adb udev rules (Debian/Ubuntu: `adb`; Arch: `android-udev`; Fedora: `android-tools`), then unplug and replug the phone. |
+| adb fails with `cannot connect to daemon` inside a sandbox (Codex) | The sandbox blocks adb's local connection. Ask the tech to set `[sandbox_workspace_write] network_access = true` in `~/.codex/config.toml`, run `adb start-server` outside the agent, and restart it. |
 | adb keeps dropping, or the device shows `offline` | Bad cable or port. Ask for a different data cable, plugged straight into the computer instead of a hub. |
