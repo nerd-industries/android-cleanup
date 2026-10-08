@@ -1,0 +1,17 @@
+{
+  "name": "android-cleanup",
+  "description": "Android pop-up and adware cleanup for repair shops",
+  "owner": {
+    "name": "Nerd Industries",
+    "email": "info@nerdindustries.net"
+  },
+  "plugins": [
+    {
+      "name": "android-cleanup",
+      "source": "./plugins/android-cleanup",
+      "description": "Find and remove pop-up adware on customers' Android and Samsung Galaxy phones over USB, then print a one-page cleanup report with your shop's branding.",
+      "version": "1.0.0",
+      "category": "productivity"
+    }
+  ]
+}

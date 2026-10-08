@@ -1,0 +1,101 @@
+{
+  "title": "Phone Cleanup Report",
+  "dateLabel": "Service date: October 7, 2026",
+  "info": [
+    [
+      "Device",
+      "Samsung Galaxy S22 Ultra"
+    ],
+    [
+      "Android",
+      "16"
+    ],
+    [
+      "Serial",
+      "`R5CT00XXXXX`"
+    ],
+    [
+      "Customer",
+      ""
+    ]
+  ],
+  "result": "**The pop-ups have been stopped.** They came from a hidden Samsung Routine that opened a scam website every time the phone charged on Wi-Fi, and from spam websites allowed to send notifications in Chrome. Both have been removed, along with 6 unwanted apps.",
+  "resultBadge": "Result",
+  "findings": [
+    [
+      "Samsung Routine",
+      "A fake routine named **\"Playing games while charging\"**. When charging on Wi-Fi it opened the scam site `gamesprinty.com`. It had been firing since June 2026.",
+      "**Deleted.** The only other routine (Save battery at night) is a Samsung default and is off."
+    ],
+    [
+      "Chrome notifications",
+      "2 spam \"weather alert\" sites were allowed to send pop-ups: `localweathertracker.com` and `yourweatherwatcher.com`.",
+      "**Removed.** Chrome now blocks all websites from asking to send notifications."
+    ],
+    [
+      "Chrome site data",
+      "Leftover data from spam/ad sites `codefabricowl.com` (added Oct 5) and `travelnotle.com`.",
+      "**Cleared** and permissions reset."
+    ],
+    [
+      "Installed apps",
+      "6 unrecognized or abandoned apps, some from developers known for heavy advertising.",
+      "**Uninstalled** (listed below)."
+    ]
+  ],
+  "removed": [
+    [
+      "GO AppLock",
+      "Abandoned since 2022; developer known for aggressive ads"
+    ],
+    [
+      "Deal Seek",
+      "Shopping/deals app — common source of ads"
+    ],
+    [
+      "`com.matevox.app.aicool`",
+      "Unrecognized \"AI\" app, not in use"
+    ],
+    [
+      "`com.yz.modlily`",
+      "Unrecognized app, not in use"
+    ],
+    [
+      "`com.commlink.omnishield2`",
+      "Unrecognized \"shield\" utility app, not in use"
+    ],
+    [
+      "`rw.scheduler.app`",
+      "Unrecognized scheduler app, not in use"
+    ]
+  ],
+  "checked": [
+    [
+      "Apps drawing over the screen",
+      "Only Waze, Google and Android itself — normal"
+    ],
+    [
+      "Device administrator apps",
+      "Only Samsung's built-in service — normal"
+    ],
+    [
+      "Accessibility services",
+      "None turned on — normal"
+    ],
+    [
+      "Other Modes & Routines",
+      "All Samsung defaults — normal"
+    ],
+    [
+      "Solitaire & Sudoku",
+      "**Kept.** Their full-screen ads stay inside the games — normal for free games"
+    ]
+  ],
+  "adviceBadge": "How to stay safe",
+  "advice": [
+    "If a website asks to **\"Allow notifications\"**, tap **Block** or **Don't allow**.",
+    "Never add a **Routine**, shortcut or \"battery booster\" that a website or ad offers you.",
+    "In free games, close ads with the small **X** — don't tap the ad itself.",
+    "Pop-ups again? Don't tap anything in them — **call us** and we'll take a look."
+  ]
+}

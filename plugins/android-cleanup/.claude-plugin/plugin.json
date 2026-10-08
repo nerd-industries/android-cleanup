@@ -1,0 +1,13 @@
+{
+  "name": "android-cleanup",
+  "description": "Find and remove pop-up adware on customers' Android and Samsung Galaxy phones over USB, then print a one-page cleanup report with your shop's branding.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Nerd Industries",
+    "email": "info@nerdindustries.net"
+  },
+  "homepage": "https://github.com/nerd-industries/android-cleanup",
+  "repository": "https://github.com/nerd-industries/android-cleanup",
+  "license": "MIT",
+  "keywords": ["android", "samsung", "adware", "pop-ups", "adb", "repair-shop"]
+}
