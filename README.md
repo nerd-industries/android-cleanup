@@ -79,7 +79,7 @@ Start `claude` in a terminal, then type:
 /plugin marketplace add nerd-industries/android-cleanup
 /plugin install android-cleanup@android-cleanup
 ```
-Restart Claude Code. To update later, run `/plugin marketplace update android-cleanup`.
+Restart Claude Code. To update later, run `claude plugin update android-cleanup@android-cleanup` in a terminal and restart Claude Code.
 
 ### Codex
 In a terminal:
