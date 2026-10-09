@@ -9,7 +9,7 @@ description: Use when a customer's Android or Samsung Galaxy phone connected ove
 On modern Android the "adware" is usually **not an app**. Check these three sources, in order of how often they cause pop-ups:
 1. **Malicious Samsung Routine.** A routine disguised as a preset (e.g. "Playing games while charging") whose action is **Go to website**, often hidden behind date conditions.
 2. **Browser site notifications.** Spam sites (fake weather or package alerts, random subdomains) that were allowed to send notifications.
-3. **Apps.** Draw-over-apps, device-admin or accessibility abuse, or junk utilities.
+3. **Apps.** Sideloaded apps (patched or cracked versions of popular apps often bundle adware), draw-over-apps, device-admin or accessibility abuse, apps with no icon, or junk "cleaner", "booster" and "shield" utilities.
 
 The phone is the customer's. Investigate read-only first. **Get the tech's OK before uninstalling apps.** Ask which apps the customer actually uses. Ads that stay inside a game they play are normal, so leave those apps installed.
 
@@ -22,11 +22,15 @@ The phone is the customer's. Investigate read-only first. **Get the tech's OK be
 - **First run:** if `~/.android-cleanup/shop.json` doesn't exist, ask the tech for the shop details (see Report, step 1) at the start, while triage runs, so the job doesn't stall at the end.
 
 ## Workflow
-1. **Triage (read-only):** `PY scripts/triage.py --serial X <scratch>/triage`. It reports device info, apps newest-first, overlay apps, device admins, accessibility services, notification listeners, browser site-notification channels with the date each was granted, and recent ad and browser events.
+1. **Triage (read-only):** `PY scripts/triage.py --serial X <scratch>/triage`. It reports device info, apps newest-first, overlay apps, device admins, accessibility services, notification listeners, a **suspect-app list** scoring every third-party app on red flags, the installed browsers, browser site-notification channels with the date each was granted, and recent ad and browser events. Add `--all` to see every app's score.
 2. **Find the pop-up's trigger:** `PY scripts/usage_events.py <scratch>/triage/usage.txt --date YYYY-MM-DD --around HH:MM`. A browser launching right after a `com.android.systemui` NOTIFICATION_INTERRUPTION, with no app in the foreground, points to a **Routine**. A browser launching right after an ad screen means someone clicked an in-game ad, which is benign.
 3. **Routines:** the app has no launcher icon, so open it with `adb -s X shell am start -a com.samsung.android.app.routines.action.LAUNCH_ROUTINE_TAB -p com.samsung.android.app.routines`. Routine data can't be read over adb, so open each routine and screenshot it, scrolling to the end of the **Then** list. Delete any routine with **Go to website**, **Open app**, or date/"Get details from data" logic that the customer didn't create (Delete → confirm Delete). Check the **Modes** tab for custom modes too.
-4. **Chrome site notifications:** go to Chrome ⋮ → Settings → Site settings → Notifications and expand **Allowed**. Android keeps a site's channel after Chrome blocks it, so the triage list overstates what's live. To remove a site, go to Site settings → **All sites** → Search → trash icon → **Delete & reset**. Do this for every spam site, including recently added ones and the site the customer was on when the pop-up appeared. Then select **"Don't allow sites to send notifications"**. Also check Samsung Internet if it's installed.
-5. **Apps:** `adb -s X uninstall <pkg>` only for apps the tech approved. Re-check with `adb -s X shell pm list packages -3`.
+4. **Site notifications, in every browser triage lists:** by default remove **all** allowed sites, not just the spam ones. Keep a site only if the customer asks for it by name. Then turn off sites asking to send notifications at all.
+   - **Chrome, Edge, Brave and other Chrome-based browsers:** ⋮ → Settings → Site settings → Notifications → expand **Allowed** and remove each site, then select **"Don't allow sites to send notifications"**. Site settings → **All sites** → trash icon → **Delete & reset** also clears the spam sites' stored data. Android keeps a site's channel after the browser blocks it, so the triage channel list overstates what's live.
+   - **Samsung Internet:** ☰ → Settings → Sites and downloads → Notifications (older versions: Privacy → Site permissions → Notifications). Remove every site and turn off **Allow sites to ask**.
+   - **Firefox:** ☰ → Settings → Site permissions → Notifications, set to **Blocked**. Then go to Settings → Delete browsing data, tick **Site settings** and delete.
+   - Menus move between versions. Use `ui.py find` to locate the right item.
+5. **Apps:** start with the suspect list. **Recommend removing every sideloaded app** unless the customer knows what it is and needs it. Patched and cracked apps ("free" premium YouTube, Spotify or games) are common adware carriers, even when the app itself works. Play Store, Galaxy Store, carrier and Smart Switch apps are trusted sources. Judge those by their red flags and by whether the customer uses them. Never remove an app the customer uses without asking. `adb -s X uninstall <pkg>` only for apps the tech approved. Re-check with `adb -s X shell pm list packages -3`.
 
 ## Driving the screen
 - Wake the screen first with `adb -s X shell input keyevent KEYCODE_WAKEUP`. If the screenshot shows the lock screen, ask the tech to unlock the phone.
@@ -46,6 +50,8 @@ The phone is the customer's. Investigate read-only first. **Get the tech's OK be
 |---|---|
 | Blaming the free games with heavy in-app ads | Inside-app ads are normal. Look for pop-ups *outside* apps. |
 | Stopping at the app list | Routines and site notifications are the usual cause, so always check both. |
+| Deleting every app that isn't from the Play Store | Smart Switch transfers, carrier preloads and Galaxy Store apps also have no Play installer, and they're fine. Remove *sideloaded* ones. |
+| Cleaning only Chrome | Clear site notifications in every browser triage lists, including Firefox, Edge and Brave. |
 | Treating every `web:` channel as active | Confirm in Chrome's Allowed list. Most may already be blocked. |
 | Uninstalling without asking | Confirm the list with the tech first. |
 | Uninstall fails with `DELETE_FAILED_DEVICE_POLICY_MANAGER` | The app is a device admin. Turn it off in Settings → Security and privacy → Other security settings → Device admin apps, then uninstall again. |

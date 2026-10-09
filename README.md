@@ -11,8 +11,8 @@ Built at [Nerdy Neighbor](https://nerdyneighbor.net) in Prescott, AZ, from real 
 On current Android the pop-ups usually **aren't an app at all**. The skill checks the three real sources, most common first:
 
 1. **A hidden Samsung Routine.** A scam site adds a routine with an innocent name like "Playing games while charging" that opens a website whenever the phone charges. There's no app to uninstall, and antivirus apps don't see it.
-2. **Chrome site notifications.** Fake "weather alert", "package delivery" or "virus found" sites that the customer once tapped **Allow** on.
-3. **Apps.** Apps that draw over other apps, or abuse device admin or accessibility, plus junk "cleaner" and "booster" apps.
+2. **Browser site notifications.** Fake "weather alert", "package delivery" or "virus found" sites that the customer once tapped **Allow** on. It clears them in every browser on the phone: Chrome, Samsung Internet, Firefox, Edge, Brave and others.
+3. **Apps.** Every app gets a red-flag score. Sideloaded apps (patched or cracked "free premium" apps often carry adware) go to the top of the list. So do apps that draw over other apps, abuse device admin or accessibility, hide their icon, or were never opened, plus junk "cleaner", "booster" and "shield" apps. Apps from the Play Store, Galaxy Store, your carrier or a Smart Switch transfer aren't treated as suspects unless they have other red flags.
 
 Everything starts **read-only**. Nothing is uninstalled until you approve it, and the agent asks which apps the customer actually uses. Free games that show ads *inside* the game are left alone.
 

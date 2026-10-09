@@ -1,6 +1,6 @@
 {
   "name": "android-cleanup",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Find and remove pop-up adware on customers' Android and Samsung Galaxy phones over USB, then print a one-page cleanup report with your shop's branding.",
   "keywords": ["android", "samsung", "adware", "pop-ups", "adb", "repair-shop"],
   "skills": "./skills/",
